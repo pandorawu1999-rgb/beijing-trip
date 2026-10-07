@@ -12,7 +12,7 @@ a{color:inherit;text-decoration:none} .wrap{max-width:1120px;margin:auto;padding
 .hero-inner{padding:70px 0 64px} .eyebrow{letter-spacing:.18em;font-size:12px;opacity:.8} h1{font-size:clamp(46px,8vw,92px);line-height:.9;margin:16px 0;font-family:Georgia,"Noto Serif TC",serif;font-weight:500} .hero p{font-size:23px;max-width:720px;line-height:1.85;color:#eef2ee}
 .pills{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px} .pill{padding:9px 14px;border:1px solid rgba(255,255,255,.3);border-radius:999px;background:rgba(255,255,255,.09);backdrop-filter:blur(8px);font-size:13px}
 .nav{position:sticky;top:0;z-index:20;background:rgba(247,244,238,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)} .nav-inner{display:flex;gap:8px;overflow:auto;padding:12px 0} .nav button{border:0;background:transparent;padding:10px 13px;border-radius:999px;white-space:nowrap;color:var(--muted);cursor:pointer;font-weight:800;letter-spacing:.02em} .nav button.active,.nav button:hover{background:var(--dark);color:#fff}
-section{padding:70px 0} .section-kicker{font-size:12px;letter-spacing:.18em;color:var(--accent);font-weight:800} h2{font-family:Georgia,"Noto Serif TC",serif;font-size:54px;margin:10px 0 16px;font-weight:500} .lead{color:var(--muted);line-height:1.8;max-width:760px}
+section{padding:70px 0}.view-section{display:none}.view-section.active{display:block} .section-kicker{font-size:12px;letter-spacing:.18em;color:var(--accent);font-weight:800} h2{font-family:Georgia,"Noto Serif TC",serif;font-size:54px;margin:10px 0 16px;font-weight:500} .lead{color:var(--muted);line-height:1.8;max-width:760px}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:28px} .stat{background:#fff;border:1px solid var(--line);padding:22px;border-radius:18px} .stat strong{display:block;font-size:24px;margin-bottom:6px} .stat span{font-size:15px;color:var(--muted)}
 .day-card{background:var(--card);border:1px solid var(--line);border-radius:30px;overflow:hidden;margin:24px 0;box-shadow:0 14px 35px rgba(31,31,31,.05)} .day-photo{height:330px;background-size:cover;background-position:center;position:relative;color:#fff} .photo-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.72))} .day-head,.day-title{position:absolute;left:28px;right:28px} .day-head{top:24px;display:flex;justify-content:space-between;font-size:14px;letter-spacing:.1em} .day-title{bottom:25px;font-size:50px;font-family:"Arial Rounded MT Bold","Nunito","Noto Sans TC",sans-serif;font-weight:900;letter-spacing:.01em} .day-body{padding:28px} .summary{font-size:22px;line-height:1.85;margin-top:0}
 .timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:25px 0} .timeline-item{border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;align-items:center;gap:9px;background:#fcfbf8} .time{font-size:15px;font-weight:900;color:var(--accent);min-width:42px} .ico{font-size:18px}
@@ -81,8 +81,7 @@ body{letter-spacing:.005em}
 
 <nav class="nav"><div class="wrap nav-inner">
 <button onclick="showDay(0)" id="nav-0">DAY 1<br><small>10/21</small></button><button onclick="showDay(1)" id="nav-1">DAY 2<br><small>10/22</small></button><button onclick="showDay(2)" id="nav-2">DAY 3<br><small>10/23</small></button><button onclick="showDay(3)" id="nav-3">DAY 4<br><small>10/24</small></button><button onclick="showDay(4)" id="nav-4">DAY 5<br><small>10/25</small></button><button onclick="showDay(5)" id="nav-5">DAY 6<br><small>10/26</small></button>
-<button onclick="document.getElementById('transport').scrollIntoView()">交通</button>
-<button onclick="document.getElementById('ticket-calendar').scrollIntoView()">🎟️ 搶票</button><button onclick="document.getElementById('checklist').scrollIntoView()">出發前</button>
+<button onclick="showView('transport')" id="nav-transport">🚕 交通</button><button onclick="showView('booking')" id="nav-booking">🎟️ 預約入口</button><button onclick="showView('ticket-calendar')" id="nav-ticket-calendar">🔥 搶票日曆</button><button onclick="showView('checklist')" id="nav-checklist">✓ 出發前</button>
 </div></nav>
 
 <main class="wrap">
@@ -121,7 +120,7 @@ body{letter-spacing:.005em}
     </div>
 </section>
 
-<section id="transport">
+<section id="transport" class="view-section">
 <div class="transport">
 <div class="section-kicker" style="color:#d8bd83">TRANSPORT GUIDE</div>
 <h2>八達嶺怎麼去？</h2>
@@ -140,7 +139,7 @@ body{letter-spacing:.005em}
 </section>
 
 
-<section id="booking">
+<section id="booking" class="view-section">
 <div class="section-kicker">BOOKING SHORTCUTS</div>
 <h2>🎟️ 官方預約入口</h2>
 <p class="lead">把最重要的訂票／預約入口集中在這裡，出發前直接點就好。</p>
@@ -179,7 +178,7 @@ body{letter-spacing:.005em}
 </div>
 </section>
 
-<section id="ticket-calendar">
+<section id="ticket-calendar" class="view-section">
 <div class="section-kicker">TICKET CALENDAR</div>
 <h2>🎟️ 搶票日曆</h2>
 <p class="lead">按照這趟 10/21–10/26 行程，把最重要的票務時間排好。先記住：<b>10/15 故宮、10/16 長城、10/17 天壇、10/8 左右開始留意高鐵。</b></p>
@@ -191,7 +190,7 @@ body{letter-spacing:.005em}
 </div>
 </section>
 
-<section id="checklist">
+<section id="checklist" class="view-section">
 <div class="section-kicker">BEFORE YOU GO</div>
 <h2>出發前待辦</h2>
 <div class="checklist">
@@ -302,6 +301,10 @@ function closeLightbox(){
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox()});
 document.getElementById('lightbox').addEventListener('click',e=>{if(e.target.id==='lightbox')closeLightbox()});
 
+function clearViews(){
+  document.querySelectorAll('.view-section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+}
 function showDay(i){
   const d=allDays[i];
   const items=d.items.map((x,idx)=>`<button class="timeline-item" type="button" onclick="openActivity(${i},${idx})"><span class="time">${esc(x[0])}</span><span class="ico">${esc(x[1])}</span><div><b>${esc(x[2])}</b></div></button>`).join('');
@@ -314,25 +317,20 @@ function showDay(i){
   <div class="info-grid"><div class="info-box"><div class="small-label">ABOUT</div><p>${esc(d.intro)}</p></div>
   <div class="info-box"><div class="small-label">TRANSPORT</div><p>${esc(d.transport)}</p></div></div>
   <div class="actions">${links}</div></div></article>`;
-  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  clearViews();
   document.getElementById('nav-'+i).classList.add('active');
   document.getElementById('itinerary').scrollIntoView({behavior:'smooth'});
+}
+function showView(id){
+  clearViews();
+  document.getElementById(id).classList.add('active');
+  const btn=document.getElementById('nav-'+id);
+  if(btn) btn.classList.add('active');
+  document.getElementById(id).scrollIntoView({behavior:'smooth'});
 }
 showDay(0);
 </script>
 
-<section id="tsinghua-pku-day5" style="margin:32px auto;max-width:1100px;padding:0 20px;">
-  <div style="background:rgba(255,255,255,.9);border-radius:24px;padding:28px;box-shadow:0 10px 30px rgba(0,0,0,.08);">
-    <h2 style="margin-top:0;">🎓 DAY 5｜清華 × 北大 × 頤和園</h2>
-    <p><strong>建議路線：</strong>王府井 → 清華大學 → 北京大學 → 頤和園 → 王府井</p>
-    <div style="display:grid;gap:12px;">
-      <div>🌅 <strong>08:30–11:00｜清華大學</strong><br>建議參觀清華園、二校門、近春園一帶；校園參觀需提前預約。</div>
-      <div>🍜 <strong>11:00–12:00｜午餐／前往北大</strong><br>清華與北大距離近，適合直接移動。</div>
-      <div>🎓 <strong>12:00–14:00｜北京大學</strong><br>建議安排未名湖、博雅塔、校園主要建築；同樣需提前預約。</div>
-      <div>🏯 <strong>14:30–18:00｜頤和園</strong><br>把下午留給皇家園林，傍晚再返回市區。</div>
-    </div>
-    <p style="margin-bottom:0;"><strong>🎟️ 行前提醒：</strong>清華、北大校園參觀規則可能依日期及校方安排調整，出發前請確認官方預約渠道與入校時間。</p>
-  </div>
-</section>
+
 
 </body></html>
