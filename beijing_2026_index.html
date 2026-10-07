@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Beijing 2026 · Pandora's Trip</title>
+<style>
+:root{--ink:#17202a;--muted:#667085;--paper:#f7f4ee;--card:#fff;--accent:#a44b2a;--gold:#c99a4a;--line:#e6dfd4;--dark:#18241f}
+*{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:var(--paper);color:var(--ink);font-family:"Arial Rounded MT Bold","Nunito","Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}
+a{color:inherit;text-decoration:none} .wrap{max-width:1120px;margin:auto;padding:0 22px}
+.hero{min-height:620px;background:linear-gradient(90deg,rgba(12,20,17,.88),rgba(12,20,17,.2)),url('https://www.chinaculturetour.com/uploads/20220516/f8a4d1448460ec784ad518b33df41c74.jpg') center/cover;display:flex;align-items:flex-end;color:#fff}
+.hero-inner{padding:70px 0 64px} .eyebrow{letter-spacing:.18em;font-size:12px;opacity:.8} h1{font-size:clamp(46px,8vw,92px);line-height:.9;margin:16px 0;font-family:Georgia,"Noto Serif TC",serif;font-weight:500} .hero p{font-size:23px;max-width:720px;line-height:1.85;color:#eef2ee}
+.pills{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px} .pill{padding:9px 14px;border:1px solid rgba(255,255,255,.3);border-radius:999px;background:rgba(255,255,255,.09);backdrop-filter:blur(8px);font-size:13px}
+.nav{position:sticky;top:0;z-index:20;background:rgba(247,244,238,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)} .nav-inner{display:flex;gap:8px;overflow:auto;padding:12px 0} .nav button{border:0;background:transparent;padding:10px 13px;border-radius:999px;white-space:nowrap;color:var(--muted);cursor:pointer;font-weight:800;letter-spacing:.02em} .nav button.active,.nav button:hover{background:var(--dark);color:#fff}
+section{padding:70px 0} .section-kicker{font-size:12px;letter-spacing:.18em;color:var(--accent);font-weight:800} h2{font-family:Georgia,"Noto Serif TC",serif;font-size:54px;margin:10px 0 16px;font-weight:500} .lead{color:var(--muted);line-height:1.8;max-width:760px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:28px} .stat{background:#fff;border:1px solid var(--line);padding:22px;border-radius:18px} .stat strong{display:block;font-size:24px;margin-bottom:6px} .stat span{font-size:15px;color:var(--muted)}
+.day-card{background:var(--card);border:1px solid var(--line);border-radius:30px;overflow:hidden;margin:24px 0;box-shadow:0 14px 35px rgba(31,31,31,.05)} .day-photo{height:330px;background-size:cover;background-position:center;position:relative;color:#fff} .photo-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.72))} .day-head,.day-title{position:absolute;left:28px;right:28px} .day-head{top:24px;display:flex;justify-content:space-between;font-size:14px;letter-spacing:.1em} .day-title{bottom:25px;font-size:50px;font-family:"Arial Rounded MT Bold","Nunito","Noto Sans TC",sans-serif;font-weight:900;letter-spacing:.01em} .day-body{padding:28px} .summary{font-size:22px;line-height:1.85;margin-top:0}
+.timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:25px 0} .timeline-item{border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;align-items:center;gap:9px;background:#fcfbf8} .time{font-size:15px;font-weight:900;color:var(--accent);min-width:42px} .ico{font-size:18px}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px} .info-box{background:#f8f5ef;border-radius:18px;padding:20px} .small-label{font-size:10px;letter-spacing:.15em;font-weight:900;color:var(--accent)} .info-box p{line-height:1.7;color:#495057;font-size:14px}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px} .link-btn{display:inline-block;border:1px solid var(--line);padding:10px 14px;border-radius:999px;font-size:16px;background:#fff} .link-btn:hover{background:var(--dark);color:#fff}
+.transport{background:var(--dark);color:#fff;border-radius:28px;padding:34px} .transport h2{color:#fff} .route{display:flex;align-items:stretch;gap:0;margin:25px 0} .stop{flex:1;background:rgba(255,255,255,.07);padding:22px;border:1px solid rgba(255,255,255,.1)} .stop:first-child{border-radius:16px 0 0 16px} .stop:last-child{border-radius:0 16px 16px 0} .arrow{display:flex;align-items:center;padding:0 16px;font-size:22px;color:#d8bd83} .transport p{color:#cdd5d0;line-height:1.7} .route-links{display:flex;gap:10px;flex-wrap:wrap} .route-links a{background:#fff;color:var(--dark);padding:11px 15px;border-radius:999px;font-weight:800;font-size:13px}
+.checklist{display:grid;grid-template-columns:repeat(2,1fr);gap:12px} .check{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;gap:12px;align-items:flex-start} .check input{margin-top:4px;accent-color:var(--accent)}
+footer{padding:40px 0 60px;color:var(--muted);font-size:12px;line-height:1.8}
+@media(max-width:760px){.hero{min-height:560px} .stats{grid-template-columns:repeat(2,1fr)} .timeline{grid-template-columns:1fr} .info-grid,.checklist{grid-template-columns:1fr} .day-photo{height:300px} .day-title{font-size:30px} .route{flex-direction:column} .arrow{justify-content:center;padding:8px} .stop:first-child,.stop:last-child{border-radius:16px}}
+
+/* Premium travel-app polish */
+body{letter-spacing:.005em}
+.hero-inner{max-width:900px}
+.eyebrow{font-weight:900}
+.pill{font-size:14px;font-weight:800}
+.nav button{font-size:15px;line-height:1.15}
+.nav button small{font-size:12px;font-weight:700}
+.stat strong{font-size:28px;font-weight:900}
+.stat span{font-size:14px}
+.day-head{font-weight:900}
+.info-box p{font-size:16px}
+.stop strong{font-size:19px}
+.stop span{font-size:14px;color:#cdd5d0}
+.link-btn{font-weight:800}
+.check{font-size:16px;line-height:1.55}
+.check input{transform:scale(1.2)}
+@media(max-width:760px){
+  h2{font-size:40px}
+  .hero h1{font-size:58px}
+  .hero p{font-size:20px}
+  .day-title{font-size:38px}
+  .day-body{padding:24px}
+  .summary{font-size:19px}
+  .info-box p{font-size:16px}
+}
+</style>
+</head>
+<body>
+<header class="hero">
+<div class="wrap hero-inner">
+<div class="eyebrow">✦ BEIJING · 2026.10.21 — 10.26 ✦</div>
+<h1>北京秋日<br>6 DAYS</h1>
+<p>王府井為基地，故宮、八達嶺、天壇、頤和園、胡同與三里屯。把經典北京排進一條舒服、漂亮、可以慢慢玩的路線。</p>
+<div class="pills"><span class="pill">✈️ HU 7988 / HU 7987</span><span class="pill">🏨 Renaissance Beijing Wangfujing</span><span class="pill">👫 2 travellers</span></div>
+</div>
+</header>
+
+<nav class="nav"><div class="wrap nav-inner">
+<button onclick="showDay(0)" id="nav-0">DAY 1<br><small>10/21</small></button><button onclick="showDay(1)" id="nav-1">DAY 2<br><small>10/22</small></button><button onclick="showDay(2)" id="nav-2">DAY 3<br><small>10/23</small></button><button onclick="showDay(3)" id="nav-3">DAY 4<br><small>10/24</small></button><button onclick="showDay(4)" id="nav-4">DAY 5<br><small>10/25</small></button><button onclick="showDay(5)" id="nav-5">DAY 6<br><small>10/26</small></button>
+<button onclick="document.getElementById('transport').scrollIntoView()">交通</button>
+<button onclick="document.getElementById('checklist').scrollIntoView()">出發前</button>
+</div></nav>
+
+<main class="wrap">
+<section>
+<div class="section-kicker">THE PLAN</div>
+<h2>一眼看懂這趟旅行</h2>
+<p class="lead">不換飯店，以王府井作為中心。白天走歷史與自然，下午保留休息時間，晚上再去吃飯、逛街或看夜景。</p>
+<div class="stats">
+<div class="stat"><strong>5 晚</strong><span>金茂萬麗王府井</span></div>
+<div class="stat"><strong>10/23</strong><span>八達嶺長城日</span></div>
+<div class="stat"><strong>10/22</strong><span>故宮核心日</span></div>
+<div class="stat"><strong>2 人</strong><span>台北往返北京</span></div>
+</div>
+</section>
+
+<section id="itinerary">
+<div class="section-kicker">ITINERARY</div>
+<h2>每日行程</h2>
+<div id="day-container">
+    <article class="day-card" id="day-0" data-day="0">
+      <div class="day-photo" style="background-image:url('https://static.aviasales.com/psgr-v2/shutterstock_2227184231_f0006ecfd4.jpg')">
+        <div class="photo-shade"></div>
+        <div class="day-head"><span>10/21 · 三</span><span>ARRIVAL</span></div>
+        <div class="day-title">抵達北京 · 王府井夜色</div>
+      </div>
+      <div class="day-body">
+        <p class="summary">13:05 台北起飛 → 16:35 抵達首都機場。入住金茂萬麗後，用一個輕鬆的晚上開啟北京。</p>
+        <div class="timeline"><div class="timeline-item"><span class="time">16:35</span><span class="ico">PEK</span><div><b>抵達北京首都機場</b></div></div><div class="timeline-item"><span class="time">18:00</span><span class="ico">🚕</span><div><b>前往金茂萬麗王府井</b></div></div><div class="timeline-item"><span class="time">19:30</span><span class="ico">🏨</span><div><b>Check-in＋休息</b></div></div><div class="timeline-item"><span class="time">20:00</span><span class="ico">🏮</span><div><b>王府井散步＋晚餐</b></div></div><div class="timeline-item"><span class="time">22:00</span><span class="ico">🌙</span><div><b>回飯店休息</b></div></div></div>
+        <div class="info-grid">
+          <div class="info-box"><div class="small-label">ABOUT</div><p>第一天不塞景點。住在王府井最大的優勢，就是下飛機後不用再折騰，晚上直接逛街吃飯。</p></div>
+          <div class="info-box"><div class="small-label">TRANSPORT</div><p>首都機場 → 飯店：建議直接叫車／計程車；飯店位於王府井大街57號，距首都機場約28.1公里。</p></div>
+        </div>
+        <div class="actions"><a class="link-btn" href="https://www.marriott.com/en-us/hotels/bjswf-renaissance-beijing-wangfujing-hotel/overview/" target="_blank" rel="noopener">飯店交通 ↗</a></div>
+      </div>
+    </article>
+    </div>
+</section>
+
+<section id="transport">
+<div class="transport">
+<div class="section-kicker" style="color:#d8bd83">TRANSPORT GUIDE</div>
+<h2>八達嶺怎麼去？</h2>
+<p>這次以「舒服、不要浪費時間」為優先。2人同行，我會優先考慮包車／網約車往返；如果想體驗北京城際鐵路，再切換到火車方案。</p>
+<div class="route">
+<div class="stop"><small>START</small><br><strong>金茂萬麗王府井</strong><br><span>王府井大街57號</span></div>
+<div class="arrow">→</div>
+<div class="stop"><small>DESTINATION</small><br><strong>八達嶺長城</strong><br><span>延慶區八達嶺</span></div>
+</div>
+<div class="route-links">
+<a href="https://www.amap.com/search?query=%E5%85%AB%E8%BE%BE%E5%B2%AD%E9%95%BF%E5%9F%8E" target="_blank">高德查看八達嶺 ↗</a>
+<a href="https://map.baidu.com/search/%E5%85%AB%E8%BE%BE%E5%B2%AD%E9%95%BF%E5%9F%8E" target="_blank">百度查看八達嶺 ↗</a>
+<a href="https://www.marriott.com/en-us/hotels/bjswf-renaissance-beijing-wangfujing-hotel/overview/" target="_blank">飯店官方交通 ↗</a>
+</div>
+</div>
+</section>
+
+<section id="checklist">
+<div class="section-kicker">BEFORE YOU GO</div>
+<h2>出發前待辦</h2>
+<div class="checklist">
+<label class="check"><input type="checkbox"> <span><b>故宮</b><br>10/22參觀，官方目前為參觀前7日20:00開始預約。</span></label>
+<label class="check"><input type="checkbox"> <span><b>天安門</b><br>依當期官方規則完成實名預約。</span></label>
+<label class="check"><input type="checkbox"> <span><b>八達嶺</b><br>出發前再次確認10/23當日開放、天氣與交通班次。</span></label>
+<label class="check"><input type="checkbox"> <span><b>八達嶺交通</b><br>提前決定包車／網約車或城際列車。</span></label>
+<label class="check"><input type="checkbox"> <span><b>回程接送</b><br>10/26 07:55航班，10/25晚上預約機場車。</span></label>
+<label class="check"><input type="checkbox"> <span><b>秋季穿著</b><br>長城早晚溫度較市區低，準備薄羽絨／防風外套與好走的鞋。</span></label>
+</div>
+</section>
+
+<footer>
+資料與官方連結：故宮博物院票務／參觀資訊、北京市政府八達嶺資訊、北京旅遊網、Renaissance Beijing Wangfujing Hotel。<br>
+提示：景區開放時間、預約規則、天氣與交通班次可能於出發前調整；網站中的交通時間是行程規劃用的估算，不代表即時路況。
+</footer>
+</main>
+
+<script>
+const allDays = [{"date": "10/21", "dow": "三", "title": "抵達北京 · 王府井夜色", "tag": "ARRIVAL", "hero": "https://static.aviasales.com/psgr-v2/shutterstock_2227184231_f0006ecfd4.jpg", "summary": "13:05 台北起飛 → 16:35 抵達首都機場。入住金茂萬麗後，用一個輕鬆的晚上開啟北京。", "items": [["16:35", "PEK", "抵達北京首都機場"], ["18:00", "🚕", "前往金茂萬麗王府井"], ["19:30", "🏨", "Check-in＋休息"], ["20:00", "🏮", "王府井散步＋晚餐"], ["22:00", "🌙", "回飯店休息"]], "intro": "第一天不塞景點。住在王府井最大的優勢，就是下飛機後不用再折騰，晚上直接逛街吃飯。", "transport": "首都機場 → 飯店：建議直接叫車／計程車；飯店位於王府井大街57號，距首都機場約28.1公里。", "links": [["飯店交通", "https://www.marriott.com/en-us/hotels/bjswf-renaissance-beijing-wangfujing-hotel/overview/"]]}, {"date": "10/22", "dow": "四", "title": "故宮 · 紫禁城秋日", "tag": "IMPERIAL BEIJING", "hero": "https://static.aviasales.com/psgr-v2/shutterstock_2227184231_f0006ecfd4.jpg", "summary": "天安門 → 午門 → 故宮 → 景山。整趟旅行最重要的一天，預留充足時間拍照與慢慢走。", "items": [["07:00", "☀️", "起床"], ["07:30", "🥐", "早餐"], ["08:00", "🚕", "飯店 → 天安門"], ["08:30", "🇨🇳", "天安門廣場"], ["09:30", "🏯", "故宮：午門入 → 太和殿 → 後宮 → 御花園"], ["13:30", "🍜", "故宮北側午餐"], ["14:30", "🌳", "景山公園萬春亭"], ["16:30", "🛁", "回飯店休息"], ["18:30", "🏮", "王府井晚餐＋夜逛"]], "intro": "故宮採南進北出單向參觀。10月屬旺季，官方開館08:30、16:00停止入館、17:00閉館；門票最早於參觀前7日20:00開售。", "transport": "飯店 → 天安門：建議叫車到天安門廣場周邊，再依當日安檢與開放動線步行。故宮參觀入口為午門，出口可走神武門或東華門。", "links": [["故宮官方訂票", "https://ticket.dpm.org.cn/"], ["故宮官方導覽", "https://www.dpm.org.cn/Visit.html"]]}, {"date": "10/23", "dow": "五", "title": "八達嶺長城 · 三里屯夜生活", "tag": "GREAT WALL DAY", "hero": "https://www.chinaculturetour.com/uploads/20220516/f8a4d1448460ec784ad518b33df41c74.jpg", "summary": "早上征服八達嶺，下午回飯店休息，晚上再切換成現代北京：三里屯＋太古里。", "items": [["06:30", "☀️", "起床"], ["07:00", "🥐", "早餐"], ["07:30", "🚕", "飯店 → 八達嶺"], ["09:00", "🧱", "抵達八達嶺"], ["09:15", "🚡", "索道／地面步行上城"], ["09:30", "📸", "南四樓、北八樓等核心區域"], ["12:30", "🍜", "景區周邊午餐"], ["13:30", "🚕", "返回北京市區"], ["16:00", "🛁", "飯店洗澡＋休息"], ["18:30", "🥂", "三里屯太古里"], ["20:30", "🍸", "晚餐／酒吧"], ["22:30", "🚕", "回王府井"]], "intro": "你決定改去八達嶺。10月下旬很適合安排長城＋賞秋；北京旅遊官方資料也指出八達嶺是北京較早進入紅葉期的長城景區。2026年的夜長城活動目前官方公布至10月6日，因此10月23日不要把夜長城當成固定行程。", "transport": "最省心：2人包車／網約車往返。想搭大眾運輸，可另比較北京北站／清河站方向的城際列車與八達嶺長城站；出發前再以當日班次為準。", "links": [["八達嶺官方／北京政府資訊", "https://www.beijing.gov.cn/"], ["八達嶺秋景介紹", "https://www.visitbeijing.com.cn/article/4A7G8rL8WKB"], ["高德：八達嶺長城", "https://www.amap.com/search?query=%E5%85%AB%E8%BE%BE%E5%B2%AD%E9%95%BF%E5%9F%8E"], ["百度：八達嶺長城", "https://map.baidu.com/search/%E5%85%AB%E8%BE%BE%E5%B2%AD%E9%95%BF%E5%9F%8E"]]}, {"date": "10/24", "dow": "六", "title": "天壇 · 前門 · 大柵欄 · 什剎海", "tag": "OLD BEIJING", "hero": "https://image.kkday.com/v2/image/get/s1.kkday.com/product_535700/20251013033725_E5I4i/jpg", "summary": "把一天留給老北京：皇家祭壇、前門老街、胡同與什剎海傍晚景色。", "items": [["08:00", "☀️", "起床"], ["08:30", "🥐", "早餐"], ["09:00", "🚕", "前往天壇"], ["09:30", "⛩️", "天壇：祈年殿／皇穹宇／圜丘壇"], ["12:00", "🍜", "午餐"], ["13:00", "🏮", "前門大街＋大柵欄"], ["15:00", "☕", "楊梅竹斜街／咖啡"], ["16:30", "🌊", "什剎海"], ["18:00", "🏮", "煙袋斜街＋鼓樓"], ["19:00", "🥢", "晚餐"], ["20:30", "🌙", "什剎海夜景"]], "intro": "這天刻意放慢節奏，適合邊走邊吃。天壇、前門與什剎海串起一條很有「老北京」感覺的路線。", "transport": "金茂萬麗 → 天壇：叫車最省時間；天壇 → 前門可搭地鐵／叫車；前門 → 什剎海則建議叫車或地鐵視當日體力。", "links": [["高德：天壇", "https://www.amap.com/search?query=%E5%A4%A9%E5%9D%9B"], ["高德：什剎海", "https://www.amap.com/search?query=%E4%BB%80%E5%88%B9%E6%B5%B7"]]}, {"date": "10/25", "dow": "日", "title": "頤和園 · 圓明園 · 南鑼鼓巷", "tag": "ROYAL GARDENS", "hero": "https://static.aviasales.com/psgr-v2/shutterstock_2227184231_f0006ecfd4.jpg", "summary": "最後一個完整日安排皇家園林＋胡同，節奏比前幾天慢一點，晚上回王府井整理行李。", "items": [["07:30", "☀️", "起床"], ["08:00", "🥐", "早餐"], ["08:30", "🚕", "前往頤和園"], ["09:30", "👑", "頤和園：長廊／佛香閣／昆明湖"], ["13:00", "🍜", "午餐"], ["14:00", "🏛️", "圓明園西洋樓遺址"], ["16:30", "🚕", "返回市區"], ["18:30", "🏮", "南鑼鼓巷＋胡同"], ["20:30", "🍸", "最後一晚晚餐／甜點"], ["21:30", "🧳", "回飯店整理行李"]], "intro": "頤和園負責湖光與皇家園林，圓明園則看西洋樓遺址；晚上再回到南鑼鼓巷與鼓樓一帶收尾。", "transport": "王府井 → 頤和園：建議早上直接叫車；頤和園 → 圓明園距離較近，可叫車；晚間回市區後以地鐵／叫車彈性移動。", "links": [["高德：頤和園", "https://www.amap.com/search?query=%E9%A2%90%E5%92%8C%E5%9B%AD"], ["高德：南鑼鼓巷", "https://www.amap.com/search?query=%E5%8D%97%E9%94%A3%E9%BC%93%E5%B7%B7"]]}, {"date": "10/26", "dow": "一", "title": "清晨離開北京", "tag": "HOMEBOUND", "hero": "https://www.chinaculturetour.com/uploads/20220516/f8a4d1448460ec784ad518b33df41c74.jpg", "summary": "07:55 PEK → 11:05 TPE。最後一晚不要安排太晚，行李前一天整理完。", "items": [["04:30", "⏰", "起床"], ["04:45", "🧳", "Check-out"], ["05:00", "🚕", "飯店 → 首都機場"], ["07:55", "✈️", "PEK → TPE"], ["11:05", "🏠", "抵達桃園"]], "intro": "金茂萬麗到首都機場約28.1公里。這班是早班機，建議前一晚直接預約車。", "transport": "建議提前預約網約車／飯店叫車，並以航空公司當日要求的報到時間倒推。", "links": [["飯店官方交通", "https://www.marriott.com/en-us/hotels/bjswf-renaissance-beijing-wangfujing-hotel/overview/"]]}];
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));}
+function showDay(i){
+  const d=allDays[i];
+  const items=d.items.map(x=>`<div class="timeline-item"><span class="time">${esc(x[0])}</span><span class="ico">${esc(x[1])}</span><div><b>${esc(x[2])}</b></div></div>`).join('');
+  const links=d.links.map(x=>`<a class="link-btn" href="${esc(x[1])}" target="_blank" rel="noopener">${esc(x[0])} ↗</a>`).join('');
+  document.getElementById('day-container').innerHTML=`<article class="day-card">
+  <div class="day-photo" style="background-image:url('${esc(d.hero)}')"><div class="photo-shade"></div>
+  <div class="day-head"><span>${esc(d.date)} · ${esc(d.dow)}</span><span>${esc(d.tag)}</span></div>
+  <div class="day-title">${esc(d.title)}</div></div>
+  <div class="day-body"><p class="summary">${esc(d.summary)}</p><div class="timeline">${items}</div>
+  <div class="info-grid"><div class="info-box"><div class="small-label">ABOUT</div><p>${esc(d.intro)}</p></div>
+  <div class="info-box"><div class="small-label">TRANSPORT</div><p>${esc(d.transport)}</p></div></div>
+  <div class="actions">${links}</div></div></article>`;
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById('nav-'+i).classList.add('active');
+  document.getElementById('itinerary').scrollIntoView({behavior:'smooth'});
+}
+showDay(0);
+</script>
+</body></html>
