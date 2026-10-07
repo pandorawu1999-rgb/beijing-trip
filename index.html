@@ -48,6 +48,25 @@ body{letter-spacing:.005em}
   .summary{font-size:19px}
   .info-box p{font-size:16px}
 }
+
+/* Clickable itinerary + image lightbox */
+.timeline-item{position:relative;cursor:pointer;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.timeline-item:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(31,31,31,.08);border-color:#c99a4a}
+.timeline-item::after{content:"查看圖片  →";margin-left:auto;color:var(--accent);font-size:12px;font-weight:900;white-space:nowrap}
+.timeline-item:focus-visible{outline:3px solid rgba(164,75,42,.3);outline-offset:2px}
+.lightbox{position:fixed;inset:0;background:rgba(10,15,13,.78);backdrop-filter:blur(8px);z-index:100;display:none;align-items:center;justify-content:center;padding:22px}
+.lightbox.open{display:flex}
+.lightbox-panel{width:min(980px,96vw);max-height:92vh;overflow:auto;background:#fff;border-radius:28px;padding:22px;box-shadow:0 30px 80px rgba(0,0,0,.35)}
+.lightbox-top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px}
+.lightbox-top h3{margin:0;font-size:28px;font-family:Georgia,"Noto Serif TC",serif}
+.close-lightbox{border:0;background:#f3eee6;border-radius:999px;width:42px;height:42px;font-size:22px;cursor:pointer}
+.photo-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.photo-card{margin:0;border-radius:18px;overflow:hidden;background:#f7f4ee;border:1px solid var(--line)}
+.photo-card img{display:block;width:100%;height:280px;object-fit:cover}
+.photo-card figcaption{padding:10px 12px;font-size:12px;color:var(--muted);line-height:1.5}
+.photo-card a{color:var(--accent);font-weight:800}
+@media(max-width:760px){.timeline-item::after{font-size:10px}.photo-grid{grid-template-columns:1fr}.photo-card img{height:220px}.lightbox-panel{padding:16px}}
+
 </style>
 </head>
 <body>
@@ -179,12 +198,97 @@ body{letter-spacing:.005em}
 </footer>
 </main>
 
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="行程圖片">
+  <div class="lightbox-panel">
+    <div class="lightbox-top">
+      <h3 id="lightbox-title">行程圖片</h3>
+      <button class="close-lightbox" onclick="closeLightbox()" aria-label="關閉">×</button>
+    </div>
+    <div id="lightbox-content"></div>
+  </div>
+</div>
+
 <script>
-const allDays = [{"date": "10/21", "dow": "三", "title": "抵達北京 · 王府井夜色", "tag": "ARRIVAL", "hero": "https://static.aviasales.com/psgr-v2/shutterstock_2227184231_f0006ecfd4.jpg", "summary": "13:05 台北起飛 → 16:35 抵達首都機場。入住金茂萬麗後，用一個輕鬆的晚上開啟北京。", "items": [["16:35", "PEK", "抵達北京首都機場"], ["18:00", "🚕", "前往金茂萬麗王府井"], ["19:30", "🏨", "Check-in＋休息"], ["20:00", "🏮", "王府井散步＋晚餐"], ["22:00", "🌙", "回飯店休息"]], "intro": "第一天不塞景點。住在王府井最大的優勢，就是下飛機後不用再折騰，晚上直接逛街吃飯。", "transport": "首都機場 → 飯店：建議直接叫車／計程車；飯店位於王府井大街57號，距首都機場約28.1公里。", "links": [["飯店交通", "https://www.marriott.com/en-us/hotels/bjswf-renaissance-beijing-wangfujing-hotel/overview/"]]}, {"date": "10/22", "dow": "四", "title": "故宮 · 紫禁城秋日", "tag": "IMPERIAL BEIJING", "hero": "https://static.aviasales.com/psgr-v2/shutterstock_2227184231_f0006ecfd4.jpg", "summary": "天安門 → 午門 → 故宮 → 景山。整趟旅行最重要的一天，預留充足時間拍照與慢慢走；午餐安排在故宮東門旁的四季民福，動線最順。", "items": [["07:00", "☀️", "起床"], ["07:30", "🥐", "早餐"], ["08:00", "🚕", "飯店 → 天安門"], ["08:30", "🇨🇳", "天安門廣場"], ["09:30", "🏯", "故宮：午門入 → 太和殿 → 後宮 → 御花園"], ["13:00", "🚶", "離開故宮 → 東華門"], ["13:15", "🦆", "四季民福・故宮店午餐（3人）"], ["14:45", "🌳", "景山公園萬春亭"], ["16:30", "🛁", "回飯店休息"], ["18:30", "🏮", "王府井晚餐＋夜逛"]], "intro": "故宮採南進北出單向參觀。10月屬旺季，官方開館08:30、16:00停止入館、17:00閉館；門票最早於參觀前7日20:00開售。", "transport": "飯店 → 天安門：建議叫車到天安門廣場周邊，再依當日安檢與開放動線步行。故宮參觀入口為午門，出口可走神武門或東華門。", "links": [["🦆 四季民福・故宮店地圖", "https://www.amap.com/place/B0L3ZU0SV7"], ["🎟️ 故宮官方訂票", "https://ticket.dpm.org.cn/"], ["🏯 故宮官方參觀資訊", "https://www.dpm.org.cn/Visit.html"], ["🇨🇳 天安門官方預約", "https://yuyue2026.tamgw.beijing.gov.cn/web/index.html#/index"]]}, {"date": "10/23", "dow": "五", "title": "八達嶺長城 · 三里屯夜生活", "tag": "GREAT WALL DAY", "hero": "https://www.chinaculturetour.com/uploads/20220516/f8a4d1448460ec784ad518b33df41c74.jpg", "summary": "早上征服八達嶺，下午回飯店休息，晚上再切換成現代北京：三里屯＋太古里。", "items": [["06:30", "☀️", "起床"], ["07:00", "🥐", "早餐"], ["07:30", "🚕", "飯店 → 八達嶺"], ["09:00", "🧱", "抵達八達嶺"], ["09:15", "🚡", "索道／地面步行上城"], ["09:30", "📸", "南四樓、北八樓等核心區域"], ["12:30", "🍜", "景區周邊午餐"], ["13:30", "🚕", "返回北京市區"], ["16:00", "🛁", "飯店洗澡＋休息"], ["18:30", "🥂", "三里屯太古里"], ["20:30", "🍸", "晚餐／酒吧"], ["22:30", "🚕", "回王府井"]], "intro": "你決定改去八達嶺。10月下旬很適合安排長城＋賞秋；北京旅遊官方資料也指出八達嶺是北京較早進入紅葉期的長城景區。2026年的夜長城活動目前官方公布至10月6日，因此10月23日不要把夜長城當成固定行程。", "transport": "最省心：2人包車／網約車往返。想搭大眾運輸，可另比較北京北站／清河站方向的城際列車與八達嶺長城站；出發前再以當日班次為準。", "links": [["🎟️ 八達嶺官方購票", "https://www.badaling.cn/"], ["🏯 八達嶺官方景區", "https://www.badaling.cn/"], ["高德：八達嶺長城", "https://www.amap.com/search?query=%E5%85%AB%E8%BE%BE%E5%B2%AD%E9%95%BF%E5%9F%8E"], ["百度：八達嶺長城", "https://map.baidu.com/search/%E5%85%AB%E8%BE%BE%E5%B2%AD%E9%95%BF%E5%9F%8E"]]}, {"date": "10/24", "dow": "六", "title": "天壇 · 前門 · 大柵欄 · 什剎海", "tag": "OLD BEIJING", "hero": "https://image.kkday.com/v2/image/get/s1.kkday.com/product_535700/20251013033725_E5I4i/jpg", "summary": "把一天留給老北京：皇家祭壇、前門老街、胡同與什剎海傍晚景色。", "items": [["08:00", "☀️", "起床"], ["08:30", "🥐", "早餐"], ["09:00", "🚕", "前往天壇"], ["09:30", "⛩️", "天壇：祈年殿／皇穹宇／圜丘壇"], ["12:00", "🍜", "午餐"], ["13:00", "🏮", "前門大街＋大柵欄"], ["15:00", "☕", "楊梅竹斜街／咖啡"], ["16:30", "🌊", "什剎海"], ["18:00", "🏮", "煙袋斜街＋鼓樓"], ["19:00", "🥢", "晚餐"], ["20:30", "🌙", "什剎海夜景"]], "intro": "這天刻意放慢節奏，適合邊走邊吃。天壇、前門與什剎海串起一條很有「老北京」感覺的路線。", "transport": "金茂萬麗 → 天壇：叫車最省時間；天壇 → 前門可搭地鐵／叫車；前門 → 什剎海則建議叫車或地鐵視當日體力。", "links": [["高德：天壇", "https://www.amap.com/search?query=%E5%A4%A9%E5%9D%9B"], ["高德：什剎海", "https://www.amap.com/search?query=%E4%BB%80%E5%88%B9%E6%B5%B7"]]}, {"date": "10/25", "dow": "日", "title": "清華大學 · 北京大學 · 頤和園", "tag": "CAMPUS & ROYAL GARDENS", "hero": "https://static.aviasales.com/psgr-v2/shutterstock_2227184231_f0006ecfd4.jpg", "summary": "上午走清華與北大，下午把時間留給頤和園。三個地點都在海淀區，路線順、也不需要一直往返市中心。", "items": [["07:00", "☀️", "起床"], ["07:30", "🥐", "早餐"], ["08:00", "🚕", "王府井 → 清華大學"], ["08:30", "🎓", "清華大學：清華園／二校門／近春園"], ["11:00", "🚕", "清華 → 北京大學"], ["12:00", "🎓", "北京大學：未名湖／博雅塔／燕園"], ["14:00", "🚕", "北京大學 → 頤和園"], ["14:30", "👑", "頤和園：長廊／佛香閣／昆明湖"], ["18:00", "🚕", "返回王府井"], ["19:30", "🥢", "最後一晚晚餐"], ["21:30", "🧳", "回飯店整理行李"]], "intro": "清華與北大都需要依校方規則預約入校；北大目前對港澳台同胞提供官方預約說明。下午安排頤和園，10月屬旺季，公園19:00停止入園、20:00閉園。", "transport": "王府井 → 清華：建議叫車；清華 → 北大距離近，建議叫車；北大 → 頤和園同樣很近。頤和園結束後再叫車回王府井。", "links": [["🎓 清華｜官方校園參觀", "https://www.tsinghua.edu.cn/zjqh/syxx/xycg.htm"], ["🎓 北大｜官方參觀預約", "https://visitor.pku.edu.cn/"], ["🏯 頤和園｜官方網站", "https://www.summerpalace.net.cn/"], ["🎟️ 頤和園｜官方購票", "https://yhy.yidyou.cn/"]]}, {"date": "10/26", "dow": "一", "title": "清晨離開北京", "tag": "HOMEBOUND", "hero": "https://www.chinaculturetour.com/uploads/20220516/f8a4d1448460ec784ad518b33df41c74.jpg", "summary": "07:55 PEK → 11:05 TPE。最後一晚不要安排太晚，行李前一天整理完。", "items": [["04:30", "⏰", "起床"], ["04:45", "🧳", "Check-out"], ["05:00", "🚕", "飯店 → 首都機場"], ["07:55", "✈️", "PEK → TPE"], ["11:05", "🏠", "抵達桃園"]], "intro": "金茂萬麗到首都機場約28.1公里。這班是早班機，建議前一晚直接預約車。", "transport": "建議提前預約網約車／飯店叫車，並以航空公司當日要求的報到時間倒推。", "links": [["飯店官方交通", "https://www.marriott.com/en-us/hotels/bjswf-renaissance-beijing-wangfujing-hotel/overview/"]]}];
+const allDays = [{"date": "10/21", "dow": "三", "title": "抵達北京 · 王府井夜色", "tag": "ARRIVAL", "hero": "https://static.aviasales.com/psgr-v2/shutterstock_2227184231_f0006ecfd4.jpg", "summary": "13:05 台北起飛 → 16:35 抵達首都機場。入住金茂萬麗後，用一個輕鬆的晚上開啟北京。", "items": [["16:35", "PEK", "抵達北京首都機場"], ["18:00", "🚕", "前往金茂萬麗王府井"], ["19:30", "🏨", "Check-in＋休息"], ["20:00", "🏮", "王府井散步＋晚餐"], ["22:00", "🌙", "回飯店休息"]], "intro": "第一天不塞景點。住在王府井最大的優勢，就是下飛機後不用再折騰，晚上直接逛街吃飯。", "transport": "首都機場 → 飯店：建議直接叫車／計程車；飯店位於王府井大街57號，距首都機場約28.1公里。", "links": [["飯店交通", "https://www.marriott.com/en-us/hotels/bjswf-renaissance-beijing-wangfujing-hotel/overview/"]]}, {"date": "10/22", "dow": "四", "title": "故宮 · 紫禁城秋日", "tag": "IMPERIAL BEIJING", "hero": "https://static.aviasales.com/psgr-v2/shutterstock_2227184231_f0006ecfd4.jpg", "summary": "天安門 → 午門 → 故宮 → 景山。整趟旅行最重要的一天，預留充足時間拍照與慢慢走；午餐安排在故宮東門旁的四季民福，動線最順。", "items": [["07:00", "☀️", "起床"], ["07:30", "🥐", "早餐"], ["08:00", "🚕", "飯店 → 天安門"], ["08:30", "🇨🇳", "天安門廣場"], ["09:30", "🏯", "故宮：午門入 → 太和殿 → 後宮 → 御花園"], ["13:00", "🚶", "離開故宮 → 東華門"], ["13:15", "🦆", "四季民福・故宮店午餐（3人）"], ["14:45", "🌳", "景山公園萬春亭"], ["16:30", "🛁", "回飯店休息"], ["18:30", "🏮", "王府井晚餐＋夜逛"]], "intro": "故宮採南進北出單向參觀。10月屬旺季，官方開館08:30、16:00停止入館、17:00閉館；門票最早於參觀前7日20:00開售。", "transport": "飯店 → 天安門：建議叫車到天安門廣場周邊，再依當日安檢與開放動線步行。故宮參觀入口為午門，出口可走神武門或東華門。", "links": [["🦆 四季民福・故宮店地圖", "https://www.amap.com/place/B0L3ZU0SV7"], ["🎟️ 故宮官方訂票", "https://ticket.dpm.org.cn/"], ["🏯 故宮官方參觀資訊", "https://www.dpm.org.cn/Visit.html"], ["🇨🇳 天安門官方預約", "https://yuyue2026.tamgw.beijing.gov.cn/web/index.html#/index"]]}, {"date": "10/23", "dow": "五", "title": "八達嶺長城 · 三里屯夜生活", "tag": "GREAT WALL DAY", "hero": "https://www.chinaculturetour.com/uploads/20220516/f8a4d1448460ec784ad518b33df41c74.jpg", "summary": "早上征服八達嶺，下午回飯店休息，晚上再切換成現代北京：三里屯＋太古里。", "items": [["06:30", "☀️", "起床"], ["07:00", "🥐", "早餐"], ["07:30", "🚕", "飯店 → 八達嶺"], ["09:00", "🧱", "抵達八達嶺"], ["09:15", "🚡", "索道／地面步行上城"], ["09:30", "📸", "南四樓、北八樓等核心區域"], ["12:30", "🍜", "景區周邊午餐"], ["13:30", "🚕", "返回北京市區"], ["16:00", "🛁", "飯店洗澡＋休息"], ["18:30", "🥂", "三里屯太古里"], ["20:30", "🍸", "晚餐／酒吧"], ["22:30", "🚕", "回王府井"]], "intro": "你決定改去八達嶺。10月下旬很適合安排長城＋賞秋；北京旅遊官方資料也指出八達嶺是北京較早進入紅葉期的長城景區。2026年的夜長城活動目前官方公布至10月6日，因此10月23日不要把夜長城當成固定行程。", "transport": "最省心：3人包車／網約車往返。想搭大眾運輸，可另比較北京北站／清河站方向的城際列車與八達嶺長城站；出發前再以當日班次為準。", "links": [["🎟️ 八達嶺官方購票", "https://www.badaling.cn/"], ["🏯 八達嶺官方景區", "https://www.badaling.cn/"], ["高德：八達嶺長城", "https://www.amap.com/search?query=%E5%85%AB%E8%BE%BE%E5%B2%AD%E9%95%BF%E5%9F%8E"], ["百度：八達嶺長城", "https://map.baidu.com/search/%E5%85%AB%E8%BE%BE%E5%B2%AD%E9%95%BF%E5%9F%8E"]]}, {"date": "10/24", "dow": "六", "title": "天壇 · 前門 · 大柵欄 · 什剎海", "tag": "OLD BEIJING", "hero": "https://image.kkday.com/v2/image/get/s1.kkday.com/product_535700/20251013033725_E5I4i/jpg", "summary": "把一天留給老北京：皇家祭壇、前門老街、胡同與什剎海傍晚景色。", "items": [["08:00", "☀️", "起床"], ["08:30", "🥐", "早餐"], ["09:00", "🚕", "前往天壇"], ["09:30", "⛩️", "天壇：祈年殿／皇穹宇／圜丘壇"], ["12:00", "🍜", "午餐"], ["13:00", "🏮", "前門大街＋大柵欄"], ["15:00", "☕", "楊梅竹斜街／咖啡"], ["16:30", "🌊", "什剎海"], ["18:00", "🏮", "煙袋斜街＋鼓樓"], ["19:00", "🥢", "晚餐"], ["20:30", "🌙", "什剎海夜景"]], "intro": "這天刻意放慢節奏，適合邊走邊吃。天壇、前門與什剎海串起一條很有「老北京」感覺的路線。", "transport": "金茂萬麗 → 天壇：叫車最省時間；天壇 → 前門可搭地鐵／叫車；前門 → 什剎海則建議叫車或地鐵視當日體力。", "links": [["高德：天壇", "https://www.amap.com/search?query=%E5%A4%A9%E5%9D%9B"], ["高德：什剎海", "https://www.amap.com/search?query=%E4%BB%80%E5%88%B9%E6%B5%B7"]]}, {"date": "10/25", "dow": "日", "title": "清華大學 · 北京大學 · 頤和園", "tag": "CAMPUS & ROYAL GARDENS", "hero": "https://static.aviasales.com/psgr-v2/shutterstock_2227184231_f0006ecfd4.jpg", "summary": "上午走清華與北大，下午把時間留給頤和園。三個地點都在海淀區，路線順、也不需要一直往返市中心。", "items": [["07:00", "☀️", "起床"], ["07:30", "🥐", "早餐"], ["08:00", "🚕", "王府井 → 清華大學"], ["08:30", "🎓", "清華大學：清華園／二校門／近春園"], ["11:00", "🚕", "清華 → 北京大學"], ["12:00", "🎓", "北京大學：未名湖／博雅塔／燕園"], ["14:00", "🚕", "北京大學 → 頤和園"], ["14:30", "👑", "頤和園：長廊／佛香閣／昆明湖"], ["18:00", "🚕", "返回王府井"], ["19:30", "🥢", "最後一晚晚餐"], ["21:30", "🧳", "回飯店整理行李"]], "intro": "清華與北大都需要依校方規則預約入校；北大目前對港澳台同胞提供官方預約說明。下午安排頤和園，10月屬旺季，公園19:00停止入園、20:00閉園。", "transport": "王府井 → 清華：建議叫車；清華 → 北大距離近，建議叫車；北大 → 頤和園同樣很近。頤和園結束後再叫車回王府井。", "links": [["🎓 清華｜官方校園參觀", "https://www.tsinghua.edu.cn/zjqh/syxx/xycg.htm"], ["🎓 北大｜官方參觀預約", "https://visitor.pku.edu.cn/"], ["🏯 頤和園｜官方網站", "https://www.summerpalace.net.cn/"], ["🎟️ 頤和園｜官方購票", "https://yhy.yidyou.cn/"]]}, {"date": "10/26", "dow": "一", "title": "清晨離開北京", "tag": "HOMEBOUND", "hero": "https://www.chinaculturetour.com/uploads/20220516/f8a4d1448460ec784ad518b33df41c74.jpg", "summary": "07:55 PEK → 11:05 TPE。最後一晚不要安排太晚，行李前一天整理完。", "items": [["04:30", "⏰", "起床"], ["04:45", "🧳", "Check-out"], ["05:00", "🚕", "飯店 → 首都機場"], ["07:55", "✈️", "PEK → TPE"], ["11:05", "🏠", "抵達桃園"]], "intro": "金茂萬麗到首都機場約28.1公里。這班是早班機，建議前一晚直接預約車。", "transport": "建議提前預約網約車／飯店叫車，並以航空公司當日要求的報到時間倒推。", "links": [["飯店官方交通", "https://www.marriott.com/en-us/hotels/bjswf-renaissance-beijing-wangfujing-hotel/overview/"]]}];
 function esc(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));}
+
+const photoMap = {
+  "PEK": [
+    ["北京首都機場航廈示意", "https://cityvillagenews.com/wp-content/uploads/2025/08/Things-to-Do-at-Beijing-Capital-International-Airport-01.png", "https://cityvillagenews.com/things-to-do-beijing-capital-international-airport-layover/"]
+  ],
+  "王府井": [
+    ["王府井夜景示意", "https://dimg02.c-ctrip.com/images/0104x120008d066ua27BC_W_640_10000.jpg?proc=autoorient", "https://you.ctrip.com/sight/beijing1/54198.html"]
+  ],
+  "天安門": [
+    ["天安門廣場示意", "https://katana.bdatrip.com/v2/image?src=https%3A%2F%2Fstatics.bdatrip.com%2Fimages%2Ftiananmon.webp&w=3840", "https://www.bdatrip.com/china/travel-tips/tiananmen-square-beijing-guide"]
+  ],
+  "故宮": [
+    ["故宮秋日示意", "https://lervice.com/Storage/Shop/179/Products/1401/2.png", "https://serviceonline.sg/Product/Details/1401"],
+    ["故宮官方 Explore 圖片", "https://intl.dpm.org.cn/explore", "https://intl.dpm.org.cn/explore"]
+  ],
+  "四季民福": [
+    ["四季民福烤鴨示意", "https://www.travelchinaguide.com/images/photogallery/2025/forbidden-city-sijiminfu-roast-duck.jpg", "https://www.travelchinaguide.com/attraction/beijing/forbidden-city/restaurants.htm"]
+  ],
+  "景山": [
+    ["景山俯瞰故宮示意", "https://www.gettyimages.com/", "https://www.gettyimages.com/"]
+  ],
+  "八達嶺": [
+    ["八達嶺秋色示意", "https://res.klook.com/images/fl_lossy.progressive%2Cq_65/c_fill%2Cw_1295%2Ch_728/w_80%2Cx_15%2Cy_15%2Cg_south_west%2Cl_Klook_water_br_trans_yhcmh3/activities/xwvd4tiqx9qxhh9bluhl/One-daytouroftheAncientGreatWallatBadaling%2BBadalingGreatWall%28VIPskip-the-lineaccess%29.jpg", "https://www.klook.com/en-US/activity/159120-badaling-great-wall-ancient-badaling-great-wall-bus-tour-withtickes/"]
+  ],
+  "三里屯": [
+    ["三里屯太古里夜景示意", "https://cf.bstatic.com/xdata/images/hotel/max1024x768/722495816.jpg?k=499b934dd9b16187d4c3a5c17a68461f6434bc4d92efebd6f966826e8e554583&o=", "https://www.booking.com/hotel/cn/san-li-tun-shi-mao-guo-ji-fu-wu-shi-gong-yu.html"]
+  ],
+  "天壇": [
+    ["天壇秋日示意", "https://ak-d.tripcdn.com/images/0356h12000p1j82cy517E_C_1000_1000_Q50.jpg_.webp", "https://sg.trip.com/things-to-do/detail/102837621/"]
+  ],
+  "前門": [
+    ["前門大柵欄街景示意", "https://n.sinaimg.cn/sinacn10105/374/w1242h1532/20200206/3d1e-inzcrxs8286969.jpg", "https://k.sina.cn/article_7054772596_p1a47f497400100tjou.html"]
+  ],
+  "楊梅竹斜街": [
+    ["老北京胡同示意", "https://static.wixstatic.com/media/4d8c81_aa36ff3ff175442ea7bfa0b4ff505a04~mv2.jpeg/v1/fill/w_980%2Ch_653%2Cal_c%2Cq_85%2Cusm_0.66_1.00_0.01%2Cenc_avif%2Cquality_auto/4d8c81_aa36ff3ff175442ea7bfa0b4ff505a04~mv2.jpeg", "https://www.mits.mo/zh/post/explore-beijing-like-a-local-a-fun-filled-5-day-adventure"]
+  ],
+  "什剎海": [
+    ["什剎海秋日湖畔示意", "https://www.gettyimages.com/", "https://www.gettyimages.com/"]
+  ],
+  "煙袋斜街": [
+    ["煙袋斜街夜景示意", "https://ak-d.tripcdn.com/images/1mi3t224x8zqab2gsBF8E.jpg?proc=source%2Ftrip", "https://hk.trip.com/moments/poi-the-skewed-tobacco-pouch-street-88035/"]
+  ],
+  "清華": [
+    ["清華大學二校門示意", "https://yz.tsinghua.edu.cn/en/images/41841641684.jpg", "https://yz.tsinghua.edu.cn/en/Why_THU/Beautiful_Campus.htm"],
+    ["清華大學中央草坪示意", "https://www.tsinghua.edu.cn/__local/C/E4/A4/D7F87825E7671535CFCE78A0DCC_91F1E0E0_256F7.jpg", "https://www.tsinghua.edu.cn/info/1002/103134.htm"]
+  ],
+  "北京大學": [
+    ["北大未名湖／博雅塔示意", "https://res.bauhk.com/contentcloud/44/ORIGINAL/MEDIA/PICTURE/2025/6/12/555fe8872ffd4c8f8a6d52380f4fbf6e_wh1024x576.jpg", "https://zijing.com.cn/web/article/1382739795758223360/web/content_1382739795758223360.html"]
+  ],
+  "頤和園": [
+    ["頤和園秋色示意", "https://res.klook.com/image/upload/w_1265%2Ch_785%2Cc_fill%2Cq_85/w_80%2Cx_15%2Cy_15%2Cg_south_west%2Cl_Klook_water_br_trans_yhcmh3/activities/k0i42q36jltq6rvnmbrt.jpg", "https://www.klook.com/activity/151735-three-day-exploration-of-the-ancient-city-of-beijing/"]
+  ]
+};
+
+function getPhotoKey(title){
+  const keys=["四季民福","王府井","天安門","故宮","景山","八達嶺","三里屯","天壇","前門","楊梅竹斜街","什剎海","煙袋斜街","清華","北京大學","頤和園","PEK"];
+  return keys.find(k=>title.includes(k)) || "王府井";
+}
+function openActivity(dayIndex,itemIndex){
+  const d=allDays[dayIndex], item=d.items[itemIndex], title=item[2], key=getPhotoKey(title), photos=photoMap[key]||[];
+  document.getElementById('lightbox-title').textContent=item[0]+' · '+title;
+  document.getElementById('lightbox-content').innerHTML=
+    '<p style="color:var(--muted);line-height:1.7;margin-top:0">📍 '+esc(d.title)+'　｜　這裡先放網路上的「到場後大概長什麼樣」示意圖，實際景色會依當天天氣、季節與現場狀況不同。</p>'+
+    '<div class="photo-grid">'+photos.map(p=>'<figure class="photo-card"><img src="'+esc(p[1])+'" alt="'+esc(p[0])+'" loading="lazy" onerror="this.parentElement.style.display=\'none\'"><figcaption>'+esc(p[0])+' · 圖片來源：<a href="'+esc(p[2])+'" target="_blank" rel="noopener">查看來源 ↗</a></figcaption></figure>').join('')+'</div>';
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeLightbox(){
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox()});
+document.getElementById('lightbox').addEventListener('click',e=>{if(e.target.id==='lightbox')closeLightbox()});
+
 function showDay(i){
   const d=allDays[i];
-  const items=d.items.map(x=>`<div class="timeline-item"><span class="time">${esc(x[0])}</span><span class="ico">${esc(x[1])}</span><div><b>${esc(x[2])}</b></div></div>`).join('');
+  const items=d.items.map((x,idx)=>`<button class="timeline-item" type="button" onclick="openActivity(${i},${idx})"><span class="time">${esc(x[0])}</span><span class="ico">${esc(x[1])}</span><div><b>${esc(x[2])}</b></div></button>`).join('');
   const links=d.links.map(x=>`<a class="link-btn" href="${esc(x[1])}" target="_blank" rel="noopener">${esc(x[0])} ↗</a>`).join('');
   document.getElementById('day-container').innerHTML=`<article class="day-card">
   <div class="day-photo" style="background-image:url('${esc(d.hero)}')"><div class="photo-shade"></div>
