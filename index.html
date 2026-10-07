@@ -80,7 +80,7 @@ body{letter-spacing:.005em}
 
 <nav class="nav"><div class="wrap nav-inner">
 <button onclick="showDay(0)" id="nav-0">DAY 1<br><small>10/21</small></button><button onclick="showDay(1)" id="nav-1">DAY 2<br><small>10/22</small></button><button onclick="showDay(2)" id="nav-2">DAY 3<br><small>10/23</small></button><button onclick="showDay(3)" id="nav-3">DAY 4<br><small>10/24</small></button><button onclick="showDay(4)" id="nav-4">DAY 5<br><small>10/25</small></button><button onclick="showDay(5)" id="nav-5">DAY 6<br><small>10/26</small></button>
-<button onclick="showView('transport')" id="nav-transport">🚕 交通</button><button onclick="showView('booking')" id="nav-booking">🎟️ 預約入口</button><button onclick="showView('ticket-calendar')" id="nav-ticket-calendar">🔥 搶票日曆</button><button onclick="showView('checklist')" id="nav-checklist">✓ 出發前</button>
+<button onclick="showView('booking')" id="nav-booking">🎟️ 預約入口</button><button onclick="showView('ticket-calendar')" id="nav-ticket-calendar">🔥 搶票日曆</button><button onclick="showView('checklist')" id="nav-checklist">✓ 出發前</button>
 </div></nav>
 
 <main class="wrap">
@@ -119,19 +119,7 @@ body{letter-spacing:.005em}
     </div>
 </section>
 
-<section id="transport" class="view-section">
-<div class="section-kicker">TRANSPORT GUIDE</div>
-<h2>🚕 交通攻略</h2>
-<p class="lead">這一頁只放「怎麼移動」，不放門票與預約資訊。整趟旅行以王府井為基地，市區以叫車／地鐵為主，長城搭高鐵。</p>
-<div class="info-grid" style="margin-top:22px">
-<div class="info-box"><div class="small-label">✈️ DAY 1 · 機場 → 飯店</div><p><b>北京首都機場 PEK → 金茂萬麗王府井</b><br>抵達後建議直接叫車／計程車，避免帶行李轉車。</p><div class="actions"><a class="link-btn" href="https://www.marriott.com/en-us/hotels/bjswf-renaissance-beijing-wangfujing-hotel/overview/" target="_blank" rel="noopener">飯店官方 ↗</a></div></div>
-<div class="info-box"><div class="small-label">🏯 DAY 2 · 故宮</div><p><b>飯店 → 天安門／故宮</b><br>早上直接叫車到天安門廣場周邊，再依當日安檢動線步行；故宮從午門入。</p></div>
-<div class="info-box"><div class="small-label">🚄 DAY 3 · 八達嶺</div><p><b>金茂萬麗 → 北京北站 → 八達嶺長城站</b><br>目標 D6703：07:47 → 08:18，車程約31分鐘；最終以12306為準。</p><div class="actions"><a class="link-btn" href="https://www.12306.cn/" target="_blank" rel="noopener">12306 ↗</a></div></div>
-<div class="info-box"><div class="small-label">🏮 DAY 4 · 老北京</div><p><b>天壇 → 前門 → 大柵欄 → 什剎海</b><br>景點間以叫車／地鐵搭配步行，傍晚再一路走到煙袋斜街與鼓樓。</p></div>
-<div class="info-box"><div class="small-label">🎓 DAY 5 · 海淀</div><p><b>王府井 → 清華 → 北大 → 頤和園</b><br>三個目的地集中在海淀區，建議叫車串聯，減少轉乘。</p></div>
-<div class="info-box"><div class="small-label">✈️ DAY 6 · 飯店 → PEK</div><p><b>04:45 Check-out → 05:00 出發</b><br>07:55 航班，建議前一晚預約機場車。</p></div>
-</div>
-</section>
+
 
 
 <section id="booking" class="view-section">
@@ -290,7 +278,7 @@ function showDay(i){
   <div class="day-title">${esc(d.title)}</div></div>
   <div class="day-body"><p class="summary">${esc(d.summary)}</p><div class="timeline">${items}</div>
   <div class="info-grid"><div class="info-box"><div class="small-label">ABOUT</div><p>${esc(d.intro)}</p></div>
-  <div class="info-box"><div class="small-label">TRANSPORT</div><p>${esc(d.transport)}</p></div></div>
+  <div class="info-box"><div class="small-label">🚕 怎麼去</div><p>${esc(d.transport)}</p></div></div>
   <div class="actions">${links}</div></div></article>`;
   clearViews();
   document.getElementById('nav-'+i).classList.add('active');
