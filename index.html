@@ -245,10 +245,10 @@ const photoMap = {
 
 function getPhotoKey(title){
   const keys=["金茂萬麗","四季民福","王府井","天安門","故宮","景山","八達嶺","三里屯","天壇","前門","楊梅竹斜街","什剎海","煙袋斜街","清華","北京大學","頤和園","PEK"];
-  return keys.find(k=>title.includes(k)) || "王府井";
+  return keys.find(k=>title.includes(k)) || null;
 }
 function openActivity(dayIndex,itemIndex){
-  const d=allDays[dayIndex], item=d.items[itemIndex], title=item[2], key=getPhotoKey(title), photos=photoMap[key]||[];
+  const d=allDays[dayIndex], item=d.items[itemIndex], title=item[2], key=getPhotoKey(title), photos=key ? (photoMap[key]||[]) : [];
   if(!photos.length)return;
   document.getElementById('lightbox-title').textContent=item[0]+' · '+title;
   document.getElementById('lightbox-content').innerHTML=
@@ -270,7 +270,7 @@ function clearViews(){
 }
 function showDay(i){
   const d=allDays[i];
-  const items=d.items.map((x,idx)=>{const hasPhoto=(photoMap[getPhotoKey(x[2])]||[]).length>0;return `<button class="timeline-item ${hasPhoto?"has-photo":""}" type="button" ${hasPhoto?`onclick="openActivity(${i},${idx})"`:""}><span class="time">${esc(x[0])}</span><span class="ico">${esc(x[1])}</span><div><b>${esc(x[2])}</b></div></button>`;}).join('');
+  const items=d.items.map((x,idx)=>{const key=getPhotoKey(x[2]);const hasPhoto=!!(key && (photoMap[key]||[]).length);return `<button class="timeline-item ${hasPhoto?"has-photo":""}" type="button" ${hasPhoto?`onclick="openActivity(${i},${idx})"`:""}><span class="time">${esc(x[0])}</span><span class="ico">${esc(x[1])}</span><div><b>${esc(x[2])}</b></div></button>`;}).join('');
   const links=d.links.map(x=>`<a class="link-btn" href="${esc(x[1])}" target="_blank" rel="noopener">${esc(x[0])} ↗</a>`).join('');
   document.getElementById('day-container').innerHTML=`<article class="day-card">
   <div class="day-photo" style="background-image:url('${esc(d.hero)}')"><div class="photo-shade"></div>
