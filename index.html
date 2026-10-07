@@ -270,7 +270,7 @@ function clearViews(){
 }
 function showDay(i){
   const d=allDays[i];
-  const items=d.items.map((x,idx)=>{const key=getPhotoKey(x[2]);const hasPhoto=!!(key && (photoMap[key]||[]).length);return `<button class="timeline-item ${hasPhoto?"has-photo":""}" type="button" ${hasPhoto?`onclick="openActivity(${i},${idx})"`:""}><span class="time">${esc(x[0])}</span><span class="ico">${esc(x[1])}</span><div><b>${esc(x[2])}</b></div></button>`;}).join('');
+  const items=d.items.map((x,idx)=>{const key=getPhotoKey(x[2]);const hasPhoto=!!(key && (photoMap[key]||[]).length);const inner=`<span class="time">${esc(x[0])}</span><span class="ico">${esc(x[1])}</span><div><b>${esc(x[2])}</b></div>`;return hasPhoto?`<button class="timeline-item has-photo" type="button" onclick="openActivity(${i},${idx})">${inner}</button>`:`<div class="timeline-item no-photo">${inner}</div>`;}).join('');
   const links=d.links.map(x=>`<a class="link-btn" href="${esc(x[1])}" target="_blank" rel="noopener">${esc(x[0])} ↗</a>`).join('');
   document.getElementById('day-container').innerHTML=`<article class="day-card">
   <div class="day-photo" style="background-image:url('${esc(d.hero)}')"><div class="photo-shade"></div>
