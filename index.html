@@ -82,7 +82,7 @@ body{letter-spacing:.005em}
 <nav class="nav"><div class="wrap nav-inner">
 <button onclick="showDay(0)" id="nav-0">DAY 1<br><small>10/21</small></button><button onclick="showDay(1)" id="nav-1">DAY 2<br><small>10/22</small></button><button onclick="showDay(2)" id="nav-2">DAY 3<br><small>10/23</small></button><button onclick="showDay(3)" id="nav-3">DAY 4<br><small>10/24</small></button><button onclick="showDay(4)" id="nav-4">DAY 5<br><small>10/25</small></button><button onclick="showDay(5)" id="nav-5">DAY 6<br><small>10/26</small></button>
 <button onclick="document.getElementById('transport').scrollIntoView()">交通</button>
-<button onclick="document.getElementById('checklist').scrollIntoView()">出發前</button>
+<button onclick="document.getElementById('ticket-calendar').scrollIntoView()">🎟️ 搶票</button><button onclick="document.getElementById('checklist').scrollIntoView()">出發前</button>
 </div></nav>
 
 <main class="wrap">
@@ -179,14 +179,26 @@ body{letter-spacing:.005em}
 </div>
 </section>
 
+<section id="ticket-calendar">
+<div class="section-kicker">TICKET CALENDAR</div>
+<h2>🎟️ 搶票日曆</h2>
+<p class="lead">按照這趟 10/21–10/26 行程，把最重要的票務時間排好。先記住：<b>10/15 故宮、10/16 長城、10/17 天壇、10/8 左右開始留意高鐵。</b></p>
+<div class="info-grid" style="margin-top:22px">
+  <div class="info-box"><div class="small-label">10/08 左右 · 🚄 高鐵</div><p><b>北京北 → 八達嶺長城站</b><br>目標 D6703：07:47 → 08:18。實際開票日期、班次與票價以12306為準。</p><div class="actions"><a class="link-btn" href="https://www.12306.cn/" target="_blank" rel="noopener">🚄 12306 ↗</a></div></div>
+  <div class="info-box"><div class="small-label">10/15 20:00 · 🔥 故宮</div><p><b>10/22 參觀</b><br>故宮目前為參觀前7日20:00開售。3人建議一次完成實名預約。</p><div class="actions"><a class="link-btn" href="https://ticket.dpm.org.cn/" target="_blank" rel="noopener">🎟️ 故宮訂票 ↗</a></div></div>
+  <div class="info-box"><div class="small-label">10/16 左右 · 🧱 八達嶺</div><p><b>10/23 參觀</b><br>官方提供實名預約購票，也提供現場購票；這趟建議提前買，抵達後直接進場。</p><div class="actions"><a class="link-btn" href="https://www.badaling.cn/" target="_blank" rel="noopener">🧱 八達嶺官方 ↗</a></div></div>
+  <div class="info-box"><div class="small-label">10/17 · ⛩️ 天壇</div><p><b>10/24 參觀</b><br>目前可提前1–7日預約，10/17開始即可處理10/24行程；實際規則以官方當期公告為準。</p><div class="actions"><a class="link-btn" href="https://www.beijing.gov.cn/fuwu/bmfw/sy/jrts/" target="_blank" rel="noopener">🏯 北京官方票務資訊 ↗</a></div></div>
+</div>
+</section>
+
 <section id="checklist">
 <div class="section-kicker">BEFORE YOU GO</div>
 <h2>出發前待辦</h2>
 <div class="checklist">
-<label class="check"><input type="checkbox"> <span><b>故宮</b><br>10/22參觀，最早於參觀前7日20:00預約。午餐安排四季民福故宮店（3人）。 <a class="link-btn" href="https://ticket.dpm.org.cn/" target="_blank" rel="noopener">立即訂票 ↗</a></span></label>
+<label class="check"><input type="checkbox"> <span><b>故宮｜10/15 20:00</b><br>10/22參觀，最早於參觀前7日20:00預約。午餐安排四季民福故宮店（3人）。 <a class="link-btn" href="https://ticket.dpm.org.cn/" target="_blank" rel="noopener">立即訂票 ↗</a></span></label>
 <label class="check"><input type="checkbox"> <span><b>天安門</b><br>依當期官方規則完成實名預約。 <a class="link-btn" href="https://yuyue2026.tamgw.beijing.gov.cn/web/index.html#/index" target="_blank" rel="noopener">立即預約 ↗</a></span></label>
-<label class="check"><input type="checkbox"> <span><b>四季民福</b><br>10/22 13:15，故宮店；目前以現場候位為主，預留排隊時間。</span></label>\n<label class="check"><input type="checkbox"> <span><b>八達嶺</b><br>提前確認10/23票務與開放資訊。 <a class="link-btn" href="https://www.badaling.cn/" target="_blank" rel="noopener">官方購票 ↗</a></span></label>
-<label class="check"><input type="checkbox"> <span><b>清華＋北大</b><br>10/25入校預約；台灣旅客請特別留意北大官方的港澳台預約說明。</span></label>
+<label class="check"><input type="checkbox"> <span><b>四季民福</b><br>10/22 13:15，故宮店；目前以現場候位為主，預留排隊時間。</span></label>\n<label class="check"><input type="checkbox"> <span><b>八達嶺｜10/16 左右</b><br>提前確認10/23票務與開放資訊。 <a class="link-btn" href="https://www.badaling.cn/" target="_blank" rel="noopener">官方購票 ↗</a></span></label>
+<label class="check"><input type="checkbox"> <span><b>天壇｜10/17</b><br>10/24參觀，提前1–7日預約。 <a class="link-btn" href="https://www.beijing.gov.cn/fuwu/bmfw/sy/jrts/" target="_blank" rel="noopener">票務資訊 ↗</a></span></label>\n<label class="check"><input type="checkbox"> <span><b>清華＋北大</b><br>10/25入校預約；台灣旅客請特別留意北大官方的港澳台預約說明。</span></label>
 <label class="check"><input type="checkbox"> <span><b>回程接送</b><br>10/26 07:55航班，10/25晚上預約機場車。</span></label>
 <label class="check"><input type="checkbox"> <span><b>秋季穿著</b><br>長城早晚溫度較市區低，準備薄羽絨／防風外套與好走的鞋。</span></label>
 </div>
